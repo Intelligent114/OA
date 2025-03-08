@@ -1,0 +1,140 @@
+\documentclass[cn,hazy,cyan,11pt,normal]{elegantnote}
+\title{最优化算法作业1}
+
+\author{陈文轩}
+
+\date{\today}
+
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{bbm}
+
+
+
+
+\definecolor{c1}{HTML}{017eda}
+
+\begin{document}
+
+    \maketitle
+
+    \begin{enumerate}
+        \item \textcolor{c1}{判断以下集合是否是凸集}\vspace{0.5cm}
+        \begin{itemize}
+            \item \textcolor{c1}{考虑这样点的集合，这些点离给定点$x_0$比离给定集合$S$中的任何点都更近，即集合$\{x\mid ||x-x_0||_2\leq ||x-y||_2 ,\forall y\in S\},S\subset\mathbb{R}^n$。}\vspace{0.5cm}
+
+
+            记$A=\{x\mid ||x-x_0||_2\leq ||x-y||_2 ,\forall y\in S\},A_y=\{x\mid ||x-x_0||_2\leq ||x-y||_2\}$，由于 \vspace{-0.9cm}
+
+            \begin{flalign*}
+                & ||x-x_0||_2\leq ||x-y||_2\Longleftrightarrow||x-x_0||_2^2\leq ||x-y||_2^2  \\
+                \Longleftrightarrow & ||x||_2^2-2\langle x,x_0\rangle+||x_0||_2^2\leq ||x||_2^2-2\langle x,y\rangle+||y||_2^2  \\
+                \Longleftrightarrow & \langle x,y-x_0\rangle\leq \frac12 ||y||_2^2-||x_0||_2^2
+            \end{flalign*}
+
+            因此$A_y$是闭的半空间，显然是凸集。因此$A=\bigcap\limits_{y\in S}A_y$也是凸集。\vspace{0.5cm}
+
+            \item \textcolor{c1}{记$n\times n$的对称矩阵集合为$\mathbb{S}^n$，集合$\{X\in\mathbb{S}^n\mid\lambda_{\min}(X)\geq 1\}$。}\vspace{0.5cm}
+
+            $\{X\in\mathbb{S}^n\mid\lambda_{\min}(X)\geq 1\}=\{X\in\mathbb{S}^n\mid X-I_n\succeq 0\}=\mathbb{S}^n_{+}+I_n$，这是一个凸锥的平移，因此也是凸集。\vspace{0.5cm}
+        \end{itemize}
+
+        \item \textcolor{c1}{判断以下函数是否是凸函数}\vspace{0.5cm}
+        \begin{itemize}
+            \item \textcolor{c1}{函数$f(x)=\sum\limits_{i=1}^r |x|_{[i]}$在$\mathbb{R}^n$上定义，其中向量$|x|$的分量满足$|x|_i=|x_i|$(即$|x|$是$x$的每个分量的绝对值)，而$|x|_{[i]}$是$|x|$中第$i$大的分量。换句话说，$|x|_{[1]}\geq |x|_{[2]}\geq\cdots\geq|x|_{[n]}$是$x$的分量的绝对值按非增序排序。}\vspace{0.5cm}
+
+            显然$\forall i$，$g_i(x)=|x_i|$是凸函数，因此$g_i(x)$的任意非负系数线性组合也是凸函数。又
+
+            $f(x)=\max\limits_{\substack{I\subset\{1,\cdots,n\}\\|I|=r}}\sum\limits_{i\in I}g_i(x)$是有限个凸函数逐点取最大值，故$f(x)$是凸函数。\vspace{0.5cm}
+
+            \item \textcolor{c1}{若$f,g$都是凸函数，并且都非递减，而且$f,g$函数值都是正的。那么他们的乘积函数$h=fg$是否为凸函数？} \vspace{0.5cm}
+
+            \begin{flalign*}
+                &\text{由$f,g$凸，有}\forall x,y\in\mathbb{R},\lambda\in[0,1],f(\lambda x+(1-\lambda)y)\leq\lambda f(x)+(1-\lambda)f(y),& \\
+                &g(\lambda x+(1-\lambda)y)\leq\lambda g(x)+(1-\lambda)g(y)\,\text{。又由$f,g$函数值为正，有}& \\
+                &f(\lambda x+(1-\lambda)y)g(\lambda x+(1-\lambda)y)\leq(\lambda f(x)+(1-\lambda)f(y))(\lambda g(x)+(1-\lambda)g(y)), & \\
+                &\text{即}h(\lambda x+(1-\lambda)y)\leq(\lambda f(x)+(1-\lambda)f(y))(\lambda g(x)+(1-\lambda)g(y)).
+            \end{flalign*}
+
+            又由$f,g$非递减，有\vspace{-0.9cm}
+
+            \begin{flalign*}
+                 &(\lambda f(x)+(1-\lambda)f(y))(\lambda g(x)+(1-\lambda)g(y))-(\lambda h(x)+(1-\lambda)h(y)) &\\
+                =&(\lambda f(x)+(1-\lambda)f(y))(\lambda g(x)+(1-\lambda)g(y))-(\lambda f(x)g(x)+(1-\lambda)f(y)g(y)) &\\
+                =&\lambda^2 f(x)g(x)+\lambda(1-\lambda)(f(y)g(x)+f(x)g(y))+(1-\lambda)^2 f(y)g(y)-\lambda f(x)g(x)- &\\
+                 &(1-\lambda)f(y)g(y) &\\
+                =&\lambda(1-\lambda)(f(x)g(y)+f(y)g(x)-f(x)g(x)-f(y)g(y)) &\\
+                =&-\lambda(1-\lambda)(f(x)-f(y))(g(x)-g(y))\leq 0
+            \end{flalign*}
+
+            故$h(\lambda x+(1-\lambda)y)\leq \lambda h(x)+(1-\lambda)h(y)$，即$h(x)$是凸函数。\vspace{0.5cm}
+        \end{itemize}
+
+        \item \textcolor{c1}{对于最大分量函数$f(x)=\max\limits_{1\leq i\leq n}x_i,x\in\mathbb{R}^n$，证明其共轭函数为}\vspace{-0.5cm}
+
+            \textcolor{c1}{\begin{center}$f^*(y)=\begin{cases}0&y\geq0,\sum_i y_i=1\\\infty&\text{otherwise}\end{cases}$   \end{center} }\vspace{0.5cm}
+
+            $f^*(y)=\sup\limits_{x\in\mathbb{R}^n}(y^T x-\max\limits_{1\leq i\leq n}x_i)$。考虑以下情形：
+
+            \begin{itemize}
+                \item $y\geq0,\sum\limits_{i=1}^n y_i>1$，此时取$x=t\mathbbm{1},t\rightarrow +\infty$时$f^*(y)=t\left( \sum\limits_{i=1}^n y_i-1\right)\rightarrow \infty$。
+                \item $y\geq0,\sum\limits_{i=1}^n y_i<1$，此时取$x=t\mathbbm{1},t\rightarrow -\infty$时$f^*(y)=-t\left(1- \sum\limits_{i=1}^n y_i\right)\rightarrow \infty$。
+                \item $y$的某个分量$y_i<0$，此时取$x=te_i,t\rightarrow -\infty$时$f^*(y)=ty_i\rightarrow \infty$。
+                \item $y\geq0,\sum\limits_{i=1}^n y_i=1$，此时取$x=t\mathbbm{1},f^*(y)=t\left( \sum\limits_{i=1}^n y_i-1\right)=0$。又有\vspace{-0.6cm}
+
+                    \begin{flalign*}
+                        &y^T x-\max_{1\leq i\leq n}x_i=\sum_{j=1}^n x_j y_j-\max_{1\leq i\leq n}x_i\leq\sum_{j=1}^n y_j \max_{1\leq i\leq n}x_i -\max_{1\leq i\leq n}x_i &\\
+                        =&\max_{1\leq i\leq n}x_i\left( \sum\limits_{i=1}^n y_i-1\right)=0 &
+                    \end{flalign*}
+
+                    故$f^*(y)=\sup\limits_{x\in\mathbb{R}^n}(y^T x-\max\limits_{1\leq i\leq n}x_i)=0$
+            \end{itemize}
+
+            由上，即有$f^*(y)=\begin{cases}0&y\geq0,\sum_i y_i=1\\\infty&\text{otherwise}\end{cases}$ \vspace{0.5cm}
+
+        \item \textcolor{c1}{对于分式线性问题}\vspace{-0.9cm}
+
+            \textcolor{c1}{\begin{flalign*}
+                \min\quad& f_0(x) \\
+                s.t.\quad& Gx\leq h,Ax=b
+            \end{flalign*}}
+
+            \textcolor{c1}{其中分式线性函数：}\vspace{-0.9cm}
+
+            \textcolor{c1}{\begin{flalign*}
+                f_0(x)=\dfrac{c^T x+d}{e^T x+f},\mathrm{dom}\,f_0(x)=\{x\mid e^T x+f>0\}
+            \end{flalign*}}
+
+            \vspace{-0.5cm}\textcolor{c1}{证明该问题等价于一个线性规划问题：}\vspace{-0.9cm}
+
+            \textcolor{c1}{\begin{flalign*}
+                \min\quad& c^T y+dz \\
+                s.t.\quad& Gy\leq hz\\
+                         & Ay=bz\\
+                         & e^T y+fz=1\\
+                         & z\geq 0
+            \end{flalign*}}
+
+            令$z=\dfrac{1}{e^T x+f},y=xz$，此时显然有$z>0,x=\dfrac{y}{z},f_0(x)=\dfrac{c^T \dfrac{y}{z}+d}{\dfrac{1}{z}}=c^T y+dz$。此时有\vspace{-0.3cm}
+
+            \begin{flalign*}
+                &Gy\leq hz\Longleftrightarrow G\dfrac{y}{z}\leq h\Longleftrightarrow Gx\leq h ,\quad Ay=bz\Longleftrightarrow A\dfrac{y}{z}=b\Longleftrightarrow Ax=b &\\
+                &e^T y+fz=1\Longleftrightarrow e^T xz+fz=1\Longleftrightarrow e^T x+f=\dfrac{1}{z}\Longleftrightarrow z=\dfrac{1}{e^T x+f} &
+            \end{flalign*}
+
+            因此两个问题等价。\vspace{0.5cm}
+
+        \item \textcolor{c1}{对于$i=1,\cdots,m$，令$B_i$是$\mathbb{R}^n$中的球体，它的球心和半径分别是$x_i$和$\rho_i$。我们希望找到$B_i,i=1,\cdots,m$的最小外接球，即找到一个球$B$，使得$B$包含所有$B_i$，并且$B$的半径最小。将这个问题写为一个SOCP问题。} \vspace{0.5cm}
+
+            直接写出SOCP问题即可：\vspace{-0.9cm}
+
+            \begin{flalign*}
+                \min_{c\in\mathbb{R}^n,R\in\mathbb{R}}\quad & R \\
+                s.t.\quad & R-\rho_i \geq 0,i=1,\cdots,m \\
+                          & ||x_i-c||_2\leq R-\rho_i,i=1,\cdots,m
+            \end{flalign*}
+
+    \end{enumerate}
+
+
+\end{document}
