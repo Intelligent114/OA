@@ -9,6 +9,7 @@
 \usepackage{amsfonts}
 \usepackage{bbm}
 \usepackage{mathtools}
+\usepackage{extarrows}
 
 
 
@@ -21,14 +22,14 @@
     \maketitle
 
     \begin{enumerate}
-        \item \textcolor{c1}{考虑以下问题}：
-            \textcolor{c1}{\begin{flalign*}
-                               \min_{x\in\mathbb{R}^2}\quad& x_1^2+x_2^2\\
-                               s.t.\quad& (x_1-1)^2+(x_2-1)^2\leq 2\\
-                               &(x_1-1)^2+(x_2+1)^2\leq 2
-            \end{flalign*}}
-            \textcolor{c1}{其中$x=(x_1,x_2)^{\top}\in\mathbb{R}^2$。}
-            \textcolor{c1}{\begin{enumerate}
+        \item {\color{c1}考虑以下问题：
+            \begin{flalign*}
+               \min_{x\in\mathbb{R}^2}\quad& x_1^2+x_2^2\\
+               s.t.\quad& (x_1-1)^2+(x_2-1)^2\leq 2\\
+               &(x_1-1)^2+(x_2+1)^2\leq 2
+            \end{flalign*}
+            其中$x=(x_1,x_2)^{\top}\in\mathbb{R}^2$。
+            \begin{enumerate}
                 \item 这是一个凸优化问题吗？
                 \item 写出此问题的拉格朗日函数。使用Slater条件验证在这个问题中是否存在强对偶性。
                 \item 写出这个优化问题的KKT条件。求出KKT点和最优点。
@@ -54,11 +55,11 @@
                     \vspace{0.2cm}解得$x_1=x_2=\lambda_1=\lambda_2=0$，即$(0,0)^{\top}$是KKT点，也是最优点。
             \end{enumerate}
 
-        \item \textcolor{c1}{考虑一个凸的分段线性最小化问题，变量为$x\in\mathbb{R}^n$}
-            \textcolor{c1}{\[\min\max_{i=1,\cdots,m}(a^{\top}_i x+b_i)\]}
-            \textcolor{c1}{其中$a_i\in\mathbb{R}^n,n_i\in\mathbb{R}$。}
+        \item {\color{c1}\vspace{0.5cm}考虑一个凸的分段线性最小化问题，变量为$x\in\mathbb{R}^n$
+            \[\min\max_{i=1,\cdots,m}(a^{\top}_i x+b_i)\]
+            其中$a_i\in\mathbb{R}^n,n_i\in\mathbb{R}$。
 
-            \textcolor{c1}{\begin{enumerate}
+            \begin{enumerate}
                 \item 考虑原问题的如下等价问题\ref{eq:eq1}，推导\ref{eq:eq1}的对偶问题
                     \begin{equation}
                         \begin{aligned}
@@ -127,6 +128,80 @@
 
                     综上所述有$0\leq p_2^*-p_1^*\leq \log m$。
             \end{enumerate}
+
+        \item {\color{c1}\vspace{0.5cm}若$f(x)=\| x\|$表示任意范数，$x\in\mathbb{R}^n$，证明次微分集合如下：
+            \[\partial f(x)=\{g\in\mathbb{R}^n:\|g\|_*\leq1,\langle g,x\rangle=\|x\|\},\]
+            其中$\|g\|_*$表示对偶范数。}
+
+            \vspace{0.5cm}\textcolor{c2}解
+
+            由次微分定义，有$g\in\partial f(x)\Rightarrow f(y)\geq f(x)+\langle g,y-x\rangle,\forall y$，即$\|y\|\geq \|x\|+\langle g,y-x\rangle,\forall y$。
+
+            分以下情况讨论：
+            \begin{itemize}
+                \item 若$x=0$，则$\langle g,x\rangle=\|x\|$显然成立；
+
+                \item 对$x\neq0$，取$y=0$，则$0\geq\|x\|+\langle g,-x \rangle\Leftrightarrow\langle g,x \rangle\geq\|x\|$;
+
+                    $\qquad\qquad\,\,\,$取$y=2x$，则$2\|x\|\geq\|x\|+\langle g,x \rangle\Leftrightarrow\langle g,x \rangle\leq\|x\|$。故$\langle g,x \rangle=\|x\|$。
+
+
+            \end{itemize}
+            而$g\in\partial f(x)\Rightarrow \|y\|\geq\langle g,y\rangle,\forall y$。令$v=\dfrac{y}{\|y\|},t=\|y\|$，则条件变为：
+
+            $t\|v\|\geq t\langle g,v\rangle\Leftrightarrow \langle g,v\rangle\leq1,\forall \|v\|=1$。由对偶范数定义，这等价于$\|g\|_*=\sup\limits_{\|v\|=1}\langle g,v \rangle\leq1$。
+
+            故$\{g\in\mathbb{R}^n: \|g\|_*\leq1,\langle g,x\rangle=\|x\|\}\subset\partial f(x)$。
+
+            反之，若$g\in\mathbb{R}^n$满足$\|g\|_*\leq1,\langle g,x \rangle=\|x\|$,
+
+            则$\|y\|\geq\|y\|\cdot\|g\|_*\geq\langle g,y \rangle=\langle g,y-x \rangle+\langle g,x \rangle=\|x\|+\langle g,y-x \rangle,\forall y\Rightarrow g\in\partial f(x)$。
+
+            故$\partial f(x)\subset\{g\in\mathbb{R}^n: \|g\|_*\leq1,\langle g,x\rangle=\|x\|\}\Rightarrow\partial f(x)=\{g\in\mathbb{R}^n:\|g\|_*\leq1,\langle g,x\rangle=\|x\|\}$。
+
+        \item {\color{c1}\vspace{0.5cm}对于$y\in\mathbb{R}^m$，给定$\mu-$强凸，$L-$光滑函数$g(y)$，即$\nabla g(y)$的Lipchitz常数为$L$。若$A\in\mathbb{R}^{m\times n},m\leq n$是行满秩矩阵，证明：
+
+            \begin{enumerate}
+                \item $f(x)=g(Ax)$是$\bar{L}-$光滑的，其中
+                    \[\bar{L}=L\|A\|^2\]
+                    $\|A\|$表示矩阵$A$的谱范数。
+
+                \item $f(x)=g(Ax)$满足规则性条件，即
+                    \[\langle \nabla f(x),x-x_{\text{proj}} \rangle\geq\bar{\mu}\|x-x_{\text{proj}}\|^2\]
+                    其中$x_{\text{proj}}$表示$x$到函数$f(x)$最小值解集合的正交投影点，$\bar{\mu}=\mu\lambda_{\min}(AA^{\top})$。
+            \end{enumerate}}
+
+            \vspace{0.5cm}\textcolor{c2}解
+
+            \begin{enumerate}
+                \item 由于$\nabla f(x)=A^{\top}\nabla g(Ax)$，有：
+                    \begin{flalign*}
+                        \|\nabla f(x_1)-\nabla f(x_2)\|&=\|A^{\top}\nabla g(Ax_1)-A^{\top}\nabla g(Ax_2)\| \leq\|A^{\top}\| \cdot\|\nabla g(x_1)-\nabla g(x_2)\| &\\
+                                                       &\leq \|A^{\top}\|\cdot L\cdot \|Ax_1-Ax_2\|\leq \|A^{\top}\|\cdot L\cdot \|A\|\cdot\|x_1-x_2\| &\\
+                                                       &=\|A\|^2\cdot L\cdot\|x_1-x_2\|\coloneqq\bar{L}\|x_1-x_2\|
+                    \end{flalign*}
+                    故$f(x)$是$\bar{L}-$光滑的。
+                \item 由$g(y)\mu-$强凸，有$g(y)$有唯一的最小值点$y^*$，且$\nabla f(y^*)=0$。$A$行满秩$\Rightarrow AA^{\top}\succ 0$。
+
+                    此时$\mu\|y-y^*\|^2\le\langle \nabla g(y)-\nabla g(y^*),y-y^* \rangle=\langle \nabla g(Ax),Ax-y^* \rangle $。
+
+                    又$\forall v\in \mathrm{Row}(A),\|Av\|^2\geq \lambda_{\min}(AA^{\top})\|v\|^2$，$x-x_{\text{proj}}\in \mathrm{Col}(A^{\top})=\mathrm{Row}(A)$
+                    \begin{flalign*}
+                        \langle \nabla f(x),x-x_{\text{proj}} \rangle&=\langle A^{\top}\nabla g(Ax),x-x_{\text{proj}} \rangle=\langle \nabla g(Ax),A(x-x_{\text{proj}})\rangle &\\
+                        &=\langle \nabla g(Ax),Ax-y^*) \rangle\geq \mu\|Ax-y^*\|^2=\mu\|A(x-x_{\text{proj}})\|^2 &\\
+                        &\geq\mu\lambda_{\min}(AA^{\top})\|x-x_{\text{proj}}\|^2\coloneqq \bar{\mu}\|x-x_{\text{proj}}\|^2 &
+                    \end{flalign*}
+                    故$\langle \nabla f(x),x-x_{\text{proj}} \rangle\geq\bar{\mu}\|x-x_{\text{proj}}\|^2$。
+            \end{enumerate}
+
+        \item {\color{c1}\vspace{0.5cm}考虑凸函数$f(x)$的共轭函数
+            \[f^*(y)=\sup_x(x^{\top}y-f(x))\]
+            证明：
+            \begin{enumerate}
+                \item 若$x\in\partial f(y)$，则$y\in\partial f^*(x)$；
+                \item 若$f(x)$是闭凸函数，利用$f=f^{**}$证明$x\in\partial f(y)$等价于$y\in\partial f^*(x)$。
+            \end{enumerate}}
+
     \end{enumerate}
 
 
