@@ -1,0 +1,133 @@
+\documentclass[cn,hazy,cyan,11pt,normal]{elegantnote}
+\title{最优化算法作业1}
+
+\author{陈文轩}
+
+\date{\today}
+
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{bbm}
+\usepackage{mathtools}
+
+
+
+
+\definecolor{c1}{HTML}{017eda}
+\definecolor{c2}{HTML}{1f1e33}
+
+\begin{document}
+
+    \maketitle
+
+    \begin{enumerate}
+        \item \textcolor{c1}{考虑以下问题}：
+            \textcolor{c1}{\begin{flalign*}
+                               \min_{x\in\mathbb{R}^2}\quad& x_1^2+x_2^2\\
+                               s.t.\quad& (x_1-1)^2+(x_2-1)^2\leq 2\\
+                               &(x_1-1)^2+(x_2+1)^2\leq 2
+            \end{flalign*}}
+            \textcolor{c1}{其中$x=(x_1,x_2)^{\top}\in\mathbb{R}^2$。}
+            \textcolor{c1}{\begin{enumerate}
+                \item 这是一个凸优化问题吗？
+                \item 写出此问题的拉格朗日函数。使用Slater条件验证在这个问题中是否存在强对偶性。
+                \item 写出这个优化问题的KKT条件。求出KKT点和最优点。
+            \end{enumerate}}
+
+            \vspace{0.5cm}\textcolor{c2}解
+
+            \begin{enumerate}
+                \item 由于目标函数与约束函数均为二次函数，且Hessian矩阵为$2I_2$，故是凸优化问题。
+                \item 引入非负Lagrange乘子$\lambda_1,\lambda_2\geq0$，可以得到问题的Lagrange函数为：
+                    \[L(x,\lambda_1,\lambda_2)=x_1^2+x_2^2+\lambda_1((x_1-1)^2+(x_2-1)^2-2)+\lambda_2(x_1-1)^2+(x_2+1)^2-2\]
+
+                    取$x=(1,0)^{\top}$，显然这个$x$满足严格不等式，故Slater条件成立，即具有强对偶性。
+                \item KKT条件为：\vspace{0.2cm}
+
+                    $\begin{cases}
+                        \nabla_x L(x,\lambda_1,\lambda_2)=2(x_1+(\lambda_1+\lambda_2)(x_1-1),x_2+(\lambda_1+\lambda_2)(x_2-1))=0  \\
+                        \lambda_1((x_1-1)^2+(x_2-1)^2-2)=0,\lambda_2((x_1-1)^2+(x_2+1)^2-2)=0  \\
+                        (x_1-1)^2+(x_2-1)^2\leq 2,(x_1-1)^2+(x_2+1)^2\leq 2 \\
+                        \lambda_1\geq0,\lambda_2\geq0
+                    \end{cases}$
+
+                    \vspace{0.2cm}解得$x_1=x_2=\lambda_1=\lambda_2=0$，即$(0,0)^{\top}$是KKT点，也是最优点。
+            \end{enumerate}
+
+        \item \textcolor{c1}{考虑一个凸的分段线性最小化问题，变量为$x\in\mathbb{R}^n$}
+            \textcolor{c1}{\[\min\max_{i=1,\cdots,m}(a^{\top}_i x+b_i)\]}
+            \textcolor{c1}{其中$a_i\in\mathbb{R}^n,n_i\in\mathbb{R}$。}
+
+            \textcolor{c1}{\begin{enumerate}
+                \item 考虑原问题的如下等价问题\ref{eq:eq1}，推导\ref{eq:eq1}的对偶问题
+                    \begin{equation}
+                        \begin{aligned}
+                        \min\max_{i=1,\cdots,m}\quad& y_i\\
+                        s.t.\quad& a^{\top}_i x+b_i\leq y_i,i=1,\cdots,m\\
+                        \end{aligned}
+                        \tag{2.1}
+                        \label{eq:eq1}
+                    \end{equation}
+                    变量为$x\in\mathbb{R}^n,y\in\mathbb{R}^m$。
+                \item 假设我们通过平滑函数逼近目标函数, 逼近函数为：
+                    \[f_0(x)=\log\sum_{i=1}^m \exp(a_i^{\top}x+b_i)\]
+                    现在我们考虑无约束问题，即$\min f_0(x)$。证明该问题的对偶问题如下：
+                    \begin{equation}
+                        \begin{aligned}
+                        \max\quad& b^{\top}z-\sum_{i=1}^m z_i\log z_i\\
+                        s.t.\quad& A^{\top}z=0,\mathbbm{1}^{\top}z=1,z\succeq0.\\
+                        \end{aligned}
+                        \tag{2.2}
+                        \label{eq:eq2}
+                    \end{equation}
+                    其中$\mathbbm{1}$表示全是$1$的向量。
+                \item 设问题\ref{eq:eq1}的最优函数值是$p_1^*$，问题\ref{eq:eq2}的最优函数值是$p_2^*$，证明$0\leq p_2^*-p_1^*\leq \log m$。
+            \end{enumerate}}
+
+            \vspace{0.5cm}\textcolor{c2}解
+
+            \begin{enumerate}
+
+                \item 先转化为线性规划问题：
+                    \begin{flalign*}
+                        \min\quad& t\\
+                        s.t.\quad& a^{\top}_i x+b_i\leq t,i=1,\cdots,m
+                    \end{flalign*}
+                    Lagrange函数为$L(x,t,\lambda)=t+\sum\limits_{i=1}^m \lambda_i(a^{\top}_i x+b_i-t),\lambda_i\geq0$，目标是$\max\limits_{\lambda}\min\limits_{x,t}L(x,t,\lambda)$。
+                    $\nabla_t L(x,t,\lambda)=1-\sum\limits_{i=1}^m \lambda_i=0\Rightarrow \mathbbm{1}^{\top}\lambda=1,\nabla_x L(x,t,\lambda)=\sum\limits_{i=1}^m \lambda_i a_i=0$，
+
+                    此时$L(x,y,\lambda)=\sum\limits_{i=1}^m \lambda_i b_i$。因此对偶问题是：
+                    \begin{flalign*}
+                        \max\quad& \sum_{i=1}^m \lambda_i b_i\\
+                        s.t.\quad& \mathbbm{1}^{\top}\lambda=1,\sum_{i=1}^m \lambda_i a_i=0\\
+                        &\lambda_i\geq0,i=1,\cdots,m
+                    \end{flalign*}
+
+                \item 记$A=(a_i,\cdots,a_m),z_j=\dfrac{\exp(a_j^{\top}x+b_j)}{\sum_{i=1}^m \exp(a_i^{\top}x+b_i)}$，则$\sum\limits_{j=1}^m z_j=1,z_j\geq0$。
+
+                    此时$f_0(x)=\log\sum\limits_{i=1}^m \exp(a_i^{\top}x+b_i)=\sum\limits_{i=1}^m z_i(a_i^{\top}x+b_i)-\sum\limits_{i=1}^m z_i\log z_i\coloneqq L(x,z)$。
+
+                    $\nabla_x L(x,z)=\sum\limits_{i=1}^m z_i a_i=0\Rightarrow A^{\top}z=0$，此时$L(x,z)=b^{\top}z-\sum\limits_{i=1}^m z_i\log z_i$。
+
+                    因此对偶问题是：
+                    \begin{flalign*}
+                        \max\quad& b^{\top}z-\sum_{i=1}^m z_i\log z_i\\
+                        s.t.\quad& A^{\top}z=0,\mathbbm{1}^{\top}z=1,z\succeq0.
+                    \end{flalign*}
+
+                \item 记$M=\max\limits_i (a^{\top}_i x+b_i)$，则$\exp(M)\leq\sum\limits_{i=1}^m \exp(a_i^{\top}x+b_i)\leq m\exp(M)$。
+
+                    取对数，即有$M\leq\log\sum\limits_{i=1}^m \exp(a_i^{\top}x+b_i)\leq M+\log m,\forall x$。
+
+                    对问题\ref{eq:eq2}的最优解$x_2^*$，有$p_2^*=\log\sum\limits_{i=1}^m \exp(a_i^{\top}x_2^*+b_i)$，由上有$\max\limits_i(a_i^{\top}x_2^*+b_i)\leq p_2^*$。
+
+                    又$p_1^*=\min\limits_x \max\limits_i (a_i^{\top}x+b_i)\leq\max\limits_i(a_i^{\top}x_2^*+b_i)\leq p_2^*$，故$p_1\leq p_2$。
+
+                    对问题\ref{eq:eq1}的最优解$x_1^*$，有$\max\limits_i(a_i^{\top}x_1^*+b_i)=p_1^*$。由上有$\log\sum\limits_{i=1}^m \exp(a_i^{\top}x_1^*+b_i)\leq p_1^*+\log m$。又$p_2^*=\min\limits_x \log\sum\limits_{i=1}^m \exp(a_i^{\top}x+b_i)\leq p_1^*+\log m$，故$p_2^*\leq p_1^*+\log m$。
+
+                    综上所述有$0\leq p_2^*-p_1^*\leq \log m$。
+            \end{enumerate}
+    \end{enumerate}
+
+
+\end{document}
