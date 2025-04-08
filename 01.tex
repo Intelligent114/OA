@@ -7,8 +7,7 @@
 
 \usepackage{array}
 \usepackage{amsfonts}
-\usepackage{bbm}
-
+\usepackage{dsfont}
 
 
 
@@ -77,10 +76,10 @@
             $f^*(y)=\sup\limits_{x\in\mathbb{R}^n}(y^T x-\max\limits_{1\leq i\leq n}x_i)$。考虑以下情形：
 
             \begin{itemize}
-                \item $y\geq0,\sum\limits_{i=1}^n y_i>1$，此时取$x=t\mathbbm{1},t\rightarrow +\infty$时$f^*(y)=t\left( \sum\limits_{i=1}^n y_i-1\right)\rightarrow \infty$。
-                \item $y\geq0,\sum\limits_{i=1}^n y_i<1$，此时取$x=t\mathbbm{1},t\rightarrow -\infty$时$f^*(y)=-t\left(1- \sum\limits_{i=1}^n y_i\right)\rightarrow \infty$。
+                \item $y\geq0,\sum\limits_{i=1}^n y_i>1$，此时取$x=t\mathds{1},t\rightarrow +\infty$时$f^*(y)=t\left( \sum\limits_{i=1}^n y_i-1\right)\rightarrow \infty$。
+                \item $y\geq0,\sum\limits_{i=1}^n y_i<1$，此时取$x=t\mathds{1},t\rightarrow -\infty$时$f^*(y)=-t\left(1- \sum\limits_{i=1}^n y_i\right)\rightarrow \infty$。
                 \item $y$的某个分量$y_i<0$，此时取$x=te_i,t\rightarrow -\infty$时$f^*(y)=ty_i\rightarrow \infty$。
-                \item $y\geq0,\sum\limits_{i=1}^n y_i=1$，此时取$x=t\mathbbm{1},f^*(y)=t\left( \sum\limits_{i=1}^n y_i-1\right)=0$。又有\vspace{-0.6cm}
+                \item $y\geq0,\sum\limits_{i=1}^n y_i=1$，此时取$x=t\mathds{1},f^*(y)=t\left( \sum\limits_{i=1}^n y_i-1\right)=0$。又有\vspace{-0.6cm}
 
                     \begin{flalign*}
                         &y^T x-\max_{1\leq i\leq n}x_i=\sum_{j=1}^n x_j y_j-\max_{1\leq i\leq n}x_i\leq\sum_{j=1}^n y_j \max_{1\leq i\leq n}x_i -\max_{1\leq i\leq n}x_i &\\

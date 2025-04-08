@@ -1,5 +1,5 @@
 \documentclass[cn,hazy,cyan,11pt,normal]{elegantnote}
-\title{最优化算法作业1}
+\title{最优化算法作业2}
 
 \author{陈文轩}
 
@@ -7,12 +7,8 @@
 
 \usepackage{array}
 \usepackage{amsfonts}
-\usepackage{bbm}
 \usepackage{mathtools}
-\usepackage{extarrows}
-
-
-
+\usepackage{dsfont}
 
 \definecolor{c1}{HTML}{017eda}
 \definecolor{c2}{HTML}{1f1e33}
@@ -76,12 +72,12 @@
                     \begin{equation}
                         \begin{aligned}
                         \max\quad& b^{\top}z-\sum_{i=1}^m z_i\log z_i\\
-                        s.t.\quad& A^{\top}z=0,\mathbbm{1}^{\top}z=1,z\succeq0.\\
+                        s.t.\quad& A^{\top}z=0,\mathds{1}^{\top}z=1,z\succeq0.\\
                         \end{aligned}
                         \tag{2.2}
                         \label{eq:eq2}
                     \end{equation}
-                    其中$\mathbbm{1}$表示全是$1$的向量。
+                    其中$\mathds{1}$表示全是$1$的向量。
                 \item 设问题\ref{eq:eq1}的最优函数值是$p_1^*$，问题\ref{eq:eq2}的最优函数值是$p_2^*$，证明$0\leq p_2^*-p_1^*\leq \log m$。
             \end{enumerate}}
 
@@ -95,12 +91,12 @@
                         s.t.\quad& a^{\top}_i x+b_i\leq t,i=1,\cdots,m
                     \end{flalign*}
                     Lagrange函数为$L(x,t,\lambda)=t+\sum\limits_{i=1}^m \lambda_i(a^{\top}_i x+b_i-t),\lambda_i\geq0$，目标是$\max\limits_{\lambda}\min\limits_{x,t}L(x,t,\lambda)$。
-                    $\nabla_t L(x,t,\lambda)=1-\sum\limits_{i=1}^m \lambda_i=0\Rightarrow \mathbbm{1}^{\top}\lambda=1,\nabla_x L(x,t,\lambda)=\sum\limits_{i=1}^m \lambda_i a_i=0$，
+                    $\nabla_t L(x,t,\lambda)=1-\sum\limits_{i=1}^m \lambda_i=0\Rightarrow \mathds{1}^{\top}\lambda=1,\nabla_x L(x,t,\lambda)=\sum\limits_{i=1}^m \lambda_i a_i=0$，
 
                     此时$L(x,y,\lambda)=\sum\limits_{i=1}^m \lambda_i b_i$。因此对偶问题是：
                     \begin{flalign*}
                         \max\quad& \sum_{i=1}^m \lambda_i b_i\\
-                        s.t.\quad& \mathbbm{1}^{\top}\lambda=1,\sum_{i=1}^m \lambda_i a_i=0\\
+                        s.t.\quad& \mathds{1}^{\top}\lambda=1,\sum_{i=1}^m \lambda_i a_i=0\\
                         &\lambda_i\geq0,i=1,\cdots,m
                     \end{flalign*}
 
@@ -113,7 +109,7 @@
                     因此对偶问题是：
                     \begin{flalign*}
                         \max\quad& b^{\top}z-\sum_{i=1}^m z_i\log z_i\\
-                        s.t.\quad& A^{\top}z=0,\mathbbm{1}^{\top}z=1,z\succeq0.
+                        s.t.\quad& A^{\top}z=0,\mathds{1}^{\top}z=1,z\succeq0.
                     \end{flalign*}
 
                 \item 记$M=\max\limits_i (a^{\top}_i x+b_i)$，则$\exp(M)\leq\sum\limits_{i=1}^m \exp(a_i^{\top}x+b_i)\leq m\exp(M)$。
@@ -201,6 +197,21 @@
                 \item 若$x\in\partial f(y)$，则$y\in\partial f^*(x)$；
                 \item 若$f(x)$是闭凸函数，利用$f=f^{**}$证明$x\in\partial f(y)$等价于$y\in\partial f^*(x)$。
             \end{enumerate}}
+
+            \vspace{0.5cm}\textcolor{c2}解
+
+            \begin{enumerate}
+                \item 对$x\in\partial f(y),\forall z,f(z)\geq f(y)+x^{\top}(z-y)\Rightarrow x^{\top}z-f(z)\leq x^{\top}y-f(y),\forall z$
+
+                    显然$y=z$时取等，故$f^*(x)=\sup\limits_z(z^{\top}x-f(z))= x^{\top}y-f(y)$。$\forall w$，
+
+                    $f^*(x)+y^{\top}(w-x)=x^{\top}y-f(y)+y^{\top}(w-x)=w^{\top}y-f(y)\leq\sup\limits_z(w^{\top}z-f(z))=f^*(w)$。
+
+                    故$\forall w,f^*(w)\geq f^*(x)+y^{\top}(w-x)$，即$y\in\partial f^*(x)$。
+                \item 由上，$x\in\partial f(y)\Rightarrow y\in\partial f^*(x)$，$y\in\partial f^*(x)\Rightarrow x\in\partial (f^*)^*(y)=\partial f^{**}(y)=\partial f(y)$。
+
+                    故$x\in\partial f(y)\Leftrightarrow y\in\partial f^*(x)$。
+            \end{enumerate}
 
     \end{enumerate}
 
