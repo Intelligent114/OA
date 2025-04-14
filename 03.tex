@@ -1,0 +1,153 @@
+\documentclass[cn,hazy,cyan,11pt,normal]{elegantnote}
+\title{最优化算法作业3}
+
+\author{陈文轩}
+
+\date{\today}
+
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{dsfont}
+\usepackage{extarrows}
+
+
+\definecolor{c1}{HTML}{017eda}
+\definecolor{c2}{HTML}{1f1e33}
+
+\everymath{\displaystyle}
+\newcommand*{\diff}{\mathop{}\!\mathrm{d}}
+\newcommand*{\prox}{\mathrm{prox}}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\tr}{tr}
+\DeclareMathOperator*{\st}{s.t.\,\,}
+
+
+\begin{document}
+
+    \maketitle
+
+    \begin{enumerate}
+        \item
+            \begin{itemize}
+                \item {\color{c1}若$f(x)$是二阶连续可微，证明$\nabla f(x)$是L−Lipschitz连续等价于$LI\succeq \nabla^2 f(x)\succeq -LI$。}
+
+                    \textcolor{c2}解
+
+                    $\Longrightarrow:\forall x,v\in\mathbb{R}^n,\|\nabla^2 f(x)v\|=\lim\limits_{t\rightarrow0}\dfrac{\|\nabla f(x+tv)-\nabla f(x)\|}{t}\leq\lim\limits_{t\rightarrow0}\dfrac{L\|tv\|}{t}=L\|v\| $，
+
+                    $\qquad$故$\|\nabla^2 f(x))\|\leq L$，又$\nabla^2 f(x)$是对称矩阵，故$\rho(\nabla^2 f(x))=\|\nabla^2 f(x)\|_2\leq L$，
+
+                    $\qquad$即$\nabla^2 f(x)$的特征值模长均不大于$L$，即$LI\succeq \nabla^2 f(x)\succeq -LI$。
+
+                    $\Longleftarrow:\forall x,y\in\mathbb{R}^n,\nabla f(y)-\nabla f(x)=\int_0^1\nabla^2 f(x+t(y-x))(y-x)\diff t,\|\nabla^2 f(x)\|\leq L$，
+
+                    $\qquad\|\nabla f(y)-\nabla f(x)\|\leq\int_0^1\|\nabla^2 f(x+t(y-x))\|\cdot\|y-x\|\diff t\leq\int_{0}^{1}L\|y-x\|\diff t=L\|y-x\|$
+
+                    $\qquad$即$\nabla f(x)$是L−Lipschitz连续的。\vspace{0.5cm}
+
+                \item {\color{c1}估计逻辑回归函数的梯度的 Lipschitz 常数：
+                    \[\min_x l(x)\coloneqq\frac1m\sum_{i=1}^m\log(1+\exp(-b_i a_i^{\top} x))\]
+                    其中$b_i\in\{-1,1\},a_i\in\mathbb{R}^n,i=1,\cdots,m$是给定的数据。}
+
+                    \vspace{0.5cm}\textcolor{c2}解
+
+                    记$f_i(x)=\log(1+e^{-b_i a_i^{\top} x}),\sigma(x)=\dfrac1{1+e^{-x}},\nabla f_i(x)=\dfrac{-b_i a_i}{1+e^{-b_{i}a^{\top}x}}=-b_i a_i\sigma(-b_{i}a_i^{\top}x)$。
+
+                    记$\sigma_i=\sigma(-b_{i}a^{\top}x)\in[0,1]$，则$\nabla^2 f_i(x)=-b_i a_i(-b_i a_i^{\top})\sigma_i(1-\sigma_i)=a_i a_i^{\top}\sigma_i(1-\sigma_i)$，
+
+                    $\left\|\nabla^2 l(x)\right\|=\left\|\dfrac1m\sum\limits_{i=1}^m \nabla^2 f_i(x)\right\|=\dfrac1m \sum\limits_{i=1}^m \|a_i a_i^{\top}\sigma_i(1-\sigma_i)\|\leq\dfrac1{4m}\sum\limits_{i=1}^m \left\|a_i\right\|^2$
+
+                    故梯度的一个Lipchitz常数为$\dfrac1{4m}\sum\limits_{i=1}^m \left\|a_i\right\|^2$。\vspace{0.5cm}
+
+            \end{itemize}
+
+        \item {\color{c1}对于次梯度算法，请构造一个非光滑函数例子，说明常数步长不收敛。}
+
+            \vspace{0.5cm}\textcolor{c2}解
+
+            取$f(x)=\|x\|$，则$\partial f(x)=\begin{cases}\{\mathrm{sgn}(x)\},\quad&x\neq0 \\ [-1,1] ,\quad&x=0\end{cases} \quad$。对任意步长$\alpha$，取初值$x_0=\dfrac{\alpha}{2}$，
+
+            则迭代序列为$x_n=(-1)^n\dfrac{\alpha}{2}$不收敛。\vspace{0.5cm}
+
+        \item {\color{c1}计算下面函数的邻近点映射，即$\prox_h (x)=\argmin_y\left(h(y)+\dfrac12\|y-x\|^2\right)$}
+
+            \begin{itemize}
+                \item {\color{c1} $h(x)=\|x\|_{\infty}$（需要求解一个一维子问题）。}
+
+                    \vspace{0.5cm}\textcolor{c2}解
+
+                    对$h(x)=\|x\|_{\infty},h^*(z)=\sup\limits_x(z^{\top}x-h(x))=I_{\{z\mid\|z\|_1\leq 1\}}(z)$。由$x=\prox_h(x)+\prox_{h^*}(x)$
+
+                    考虑$\prox_{h^*} (x)=\argmin_z\left(I_{\{z\mid\|z\|_1\leq 1\}}(z)+\dfrac12\|z-x\|^2\right)$是$x$关于$L^1$范数球的投影。
+
+                    而对$C=\{z\mid\|z\|_1\leq 1\},P_C(x)_k=\begin{cases}x_k-\lambda,&\quad x_k>\lambda\\0,&\quad -\lambda\leq x_k\leq\lambda\\x_k+\lambda,&\quad x_k<-\lambda\end{cases}$，
+
+                    其中对$\|x\|\leq1,\lambda=0$，否则$\lambda$是$\sum\limits_{k=1}^n\max\{|x_k|+-\lambda,0\}=1$的解。
+
+                    综上所述，$\prox_h(x)=x-P_C(x),P_C(x)$如上定义。\vspace{0.5cm}
+
+                \item {\color{c1} $h(x)=\max\{0,\|x\|_2-1\}$。}
+
+                    \vspace{0.5cm}\textcolor{c2}解
+
+                    对$\|y\|_2\leq1,h(y)=0$，此时原问题化为$x$关于$L^1$范数球的投影问题。此时有
+
+                    $\prox_h(x)=\argmin_{\|y\|_2\leq 1}\dfrac12\|y-x\|^2=\begin{cases}x,&\quad\|x\|_2\leq1\\\dfrac{x}{\|x\|_2},&\quad\|x\|_2>1\end{cases}$。
+
+                    对$\|y\|_2>1$，问题化为$\argmin_{\|y\|_2>1}\left(\|y\|-1+\dfrac12\|y-x\|^2\right)$，由对称性，取$x,y$共线。
+                    \begin{flalign*}
+                        &\argmin_{\|y\|_2>1}\left(\|y\|-1+\dfrac12\|y-x\|^2\right)\xlongequal[y=tu]{u=\frac{x}{\|x\|_2}} u\argmin_{t>1}\left(t-1+\dfrac12(t-\|x\|_2^2)\right)& \\
+                        =&\dfrac{x}{\|x\|_2}\argmin_{t>1}\left(\dfrac12 t^2+(1-\|x\|)t+\dfrac14 \|x\|^2-1\right)=\begin{cases}\dfrac{x}{\|x\|_2},&\quad \|x\|_2<2\\\dfrac{x}{\|x\|_2}(\|x\|_2-1),&\quad \|x\|_2\geq2\end{cases}&
+                    \end{flalign*}
+                    比较两种情况下$f(y)=\max\{0,\|y\|_2-1\}+\dfrac12\|y-x\|^2$的函数值：
+
+                    对$\|x\|_2<1,f(y_1)=0$，$f(y_2)=\dfrac12(\|x\|_2-1)^2$，故使用第一种情况的解$y=x$。
+
+                    对$1<\|x\|<2$，两种情况下解都为$y=\dfrac{x}{\|x\|_2}$，即为最终答案。
+
+                    对$\|x\|>2,f(y_1)=\dfrac12(\|x\|_2-1)^2,f(y_2)=\|x\|_2-\dfrac32,f(y_1)-f(y_2)=\dfrac12(\|x\|_2-2)^2\geq0$，
+
+                    故使用第二种情况的解$y=\dfrac{x}{\|x\|_2}(\|x\|_2-1)$。
+
+                    综上所述，$\prox_h(x)=\begin{cases}x,&\quad \|x\|_2\leq1\\\dfrac{x}{\|x\|_2},&\quad1<\|x\|_2\leq2\\ \dfrac{x}{\|x\|_2}(\|x\|_2-1),&\quad \|x\|_2>2\end{cases}$\vspace{0.5cm}
+
+            \end{itemize}
+
+        \item {\color{c1}考虑D-最优实验设计（D-optimal experimental design），其目标是最大化估计量的信息内容，通过差分香农熵测量，具体到最大化 $\det V(m_1,\cdots,m_n)$，具体背景参考《convex optimization：7.5节》。
+
+            该问题需要求解下述约束问题：\[\min_{x\in\Delta_n} -\log\det V(x)\]其中$V(x)=\sum_{i=1}^n x_i a_i a_i^{\top},a_i\in \mathbb{R}^d,i=1,\cdots,d$是给定的数据，$\Delta_n=\left\{x:\sum_{i=1}^n x_1=1,x\geq0\right\}$
+
+            请使用条件梯度法求解该问题，写出迭代公式，并且给出子问题的解。}
+
+            \vspace{0.5cm}\textcolor{c2}解
+
+            $\dfrac{\partial}{\partial x_i}-\log\det V(x)=-\tr\left(\nabla_{V}\log\det V(x)\dfrac{\partial V(x)} {\partial x_i}\right)=-\tr(V(x)^{-1}a_i a_i^{\top})=-a_i^{\top} V(x)^{-1}a_i$
+
+            $\Rightarrow \nabla (-\log\det V(x))=\left(-a_1^{\top}V(x)^{-1}a_1,\cdots,-a_n^{\top}V(x)^{-1}a_n\right)^{\top}$，记$f(x)=-\log\det V(x))$，
+
+            需要求解子问题$x_k=\argmin_{x\in \Delta_n}\langle \nabla f(y_{k-1}),x \rangle$，这是一个线性问题，最优解在顶点$e_j$上取。
+
+            其中$j=\argmin_{x\in \Delta_n}\langle \nabla f(y_{k-1}),e_i \rangle=\argmin_{i\in\{1,\cdots,n\}}(-a_i^{\top}V(y_{k-1})a_i)=\argmax_{i\in\{1,\cdots,n\}}a_i^{\top}V(y_{k-1})a_i$。
+
+            $y_k=(1-\alpha_k)y_{k-1}+\alpha_k y_k$，$\alpha_k$取消失步长或通过精确线搜索得到。\vspace{0.5cm}
+
+        \item {\color{c1}求解问题\[\min f(x)\quad\st x\in\Delta\]其中，$\Delta_n=\left\{x\in\mathbb{R}^n :\sum_{i=1}^n x_1=1,x_n\geq0\right\}$。使用镜像梯度法，迭代公式为\[x^{k+1}=\argmin_{x\in\Delta}\left(\nabla f(x^k)^{\top}(x-x^k)+\dfrac1{\alpha_k}\sum\limits_{i=1}^n x_i\log\dfrac{x_i}{x^k_i}\right)\]证明：\[x^{k+1}_i=\dfrac {x_i^k\exp\left(-\alpha_k\nabla f(x^k)_i\right)}{\sum_{j=1}^n x^k_j \exp\left(-\alpha_k\nabla f(x^k)_j\right)}\]}
+
+            \vspace{0.5cm}\textcolor{c2}解
+
+            令$L(x,\lambda)=\nabla f(x^k)^{\top}(x-x^k)+\dfrac1{\alpha_k}\sum\limits_{i=1}^n x_i\log\dfrac{x_i}{x^k_i}+\lambda\left(\sum_{i=1}^n x_i-1\right)$，对$x$求导，
+
+            $\dfrac{\partial L(x,\lambda)}{\partial x_i}=\nabla f(x^k)_i+\dfrac{1}{\alpha_k}\left(\log\dfrac{x_i}{x^k_i}+1\right)+\lambda$，求解$\dfrac{\partial L(x,\lambda)}{\partial x_i}=0$，得到
+
+            $x_i=x^k_i\exp\left(-\alpha_k\nabla(f^k)_i-\alpha_k \lambda-1\right)\xlongequal{C=\exp(-\alpha_k \lambda-1)}Cx^k_i\exp\left(-\alpha_k\nabla f(x^k)_i\right)\geq 0$。
+
+            需要调整$\lambda$使得$C$满足$\sum\limits_{i=1}^n x_i=1\Rightarrow C\sum_{j=1}^n x^k_j \exp\left(-\alpha_k\nabla f(x^k)_j\right)=1$
+
+            故$C=\dfrac1{\sum_{j=1}^n x^k_j \exp\left(-\alpha_k\nabla f(x^k)_j\right)},x_i=\dfrac {x_i^k\exp\left(-\alpha_k\nabla f(x^k)_i\right)}{\sum_{j=1}^n x^k_j \exp\left(-\alpha_k\nabla f(x^k)_j\right)}$即为所求。
+    \end{enumerate}
+
+
+\end{document}
