@@ -349,7 +349,7 @@ if __name__ == '__main__':
 
 
     print("\n--- 第 2 部分: 调整 mu 值 ---")
-    mu_values_part2 = [1e-3, 0.05, 0.01]
+    mu_values_part2 = [1e-3, 0.05, 0.01, 0.1]
     results_part2 = []
     lambda_val_part2 = 1.0 / (2.0 * m_samples)
     sparsity_threshold = 1e-7
